@@ -27,6 +27,7 @@ def eval_numerical_gradient(layer,x, df, verbose = True, h = 0.00001):
     :return:
     """
     fw = layer.forward(x)
+    print(fw.shape)
     grad = np.zeros_like(layer.w)
     it = np.nditer(layer.w, flags = ['multi_index'], op_flags = ['readwrite'])
     while not it.finished:
@@ -38,8 +39,12 @@ def eval_numerical_gradient(layer,x, df, verbose = True, h = 0.00001):
         layer.w[ix] = oldval - h
         fxmh  = layer.forward(x)
         layer.w[ix] = oldval.copy()
+        # print(fxph.shape,fxmh.shape)
 
-        grad[ix] = np.sum((fxph - fxmh)*df)/ (2*h)
+        a=np.sum((fxph - fxmh)*df)/(2*h)
+        # print(a.shape)
+        grad[ix] =a 
+
         if verbose:
             print(ix, grad[ix])
         it.iternext()
